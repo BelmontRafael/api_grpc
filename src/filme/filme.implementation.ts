@@ -1,6 +1,3 @@
-// src/filme/implementation.ts
-
-
 import * as grpc from '@grpc/grpc-js';
 import { FilmeService } from './filme.service';
 

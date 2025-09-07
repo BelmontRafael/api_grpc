@@ -1,23 +1,8 @@
 import { AtorDatasource } from "src/ator/ator.datasource";
 import { GeneroDatasource } from "src/genero/genero.datasource";
 import { Ator } from "src/types/ator";
+import { Filme, FilmeCompleto } from "src/types/filme";
 import { Genero } from "src/types/genero";
-
-
-export interface Filme {
-    id: number;
-    nome: string;
-    ano_lancamento: number;
-    sinopse: string;
-    atoresIds: number[];
-    generosIds: number[];
-}
-
-
-export interface FilmeCompleto extends Omit<Filme, 'atoresIds' | 'generosIds'> {
-    atores: Ator[];
-    generos: Genero[];
-}
 
 const filmes: Filme[] = [];
 let idCounter = 1;
