@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package filmes;
+
+// Mensagens para Genero
+message Genero {
+    int32 id = 1;
+    string nome = 2;
+}
+
+message GeneroResponse {
+    Genero genero = 1;
+}
+
+message GenerosResponse {
+    repeated Genero generos = 1;
+}
+
+message GetGeneroRequest {
+    int32 id = 1;
+}
+
+message CreateGeneroRequest {
+    string nome = 1;
+}
+
+message UpdateGeneroRequest {
+    int32 id = 1;
+    string nome = 2;
+}
+
+message DeleteRequest {
+    int32 id = 1;
+}
+
+message Empty {}
+
+// Serviço
+service GeneroService {
+    rpc ListarGeneros(Empty) returns (GenerosResponse);
+    rpc ObterGenero(GetGeneroRequest) returns (GeneroResponse);
+    rpc CriarGenero(CreateGeneroRequest) returns (GeneroResponse);
+    rpc AtualizarGenero(UpdateGeneroRequest) returns (GeneroResponse);
+    rpc DeletarGenero(DeleteRequest) returns (Empty);
+}
