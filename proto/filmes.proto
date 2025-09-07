@@ -84,3 +84,58 @@ service AtorService {
     rpc AtualizarAtor(UpdateAtorRequest) returns (AtorResponse);
     rpc DeletarAtor(DeleteRequest) returns (Empty);
 }
+
+// --- Serviço de Filme ---
+
+// Mensagens para Filme
+message Filme {
+    int32 id = 1;
+    string nome = 2;
+    int32 ano_lancamento = 3;
+    string sinopse = 4;
+    repeated Ator atores = 5;
+    repeated Genero generos = 6;
+}
+
+message FilmeResponse {
+    Filme filme = 1;
+}
+
+message FilmesResponse {
+    repeated Filme filmes = 1;
+}
+
+message GetFilmeRequest {
+    int32 id = 1;
+}
+
+message CreateFilmeRequest {
+    string nome = 1;
+    int32 ano_lancamento = 2;
+    string sinopse = 3;
+    repeated int32 atoresIds = 4;
+    repeated int32 generosIds = 5;
+}
+
+message UpdateFilmeRequest {
+    int32 id = 1;
+    string nome = 2;
+    int32 ano_lancamento = 3;
+    string sinopse = 4;
+}
+
+message AdicionarAtorFilmeRequest {
+    int32 filmeId = 1;
+    int32 atorId = 2;
+}
+
+// Serviço
+service FilmeService {
+    rpc ListarFilmes(Empty) returns (FilmesResponse);
+    rpc ObterFilme(GetFilmeRequest) returns (FilmeResponse);
+    rpc CriarFilme(CreateFilmeRequest) returns (FilmeResponse);
+    rpc AtualizarFilme(UpdateFilmeRequest) returns (FilmeResponse);
+    rpc DeletarFilme(DeleteRequest) returns (Empty);
+    rpc ListarAtoresDeFilme(GetFilmeRequest) returns (AtoresResponse);
+    rpc AdicionarAtorEmFilme(AdicionarAtorFilmeRequest) returns (FilmeResponse);
+}
