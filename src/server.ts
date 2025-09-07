@@ -7,8 +7,9 @@ import { getGeneroImplementation } from './genero/genero.implementation';
 import { AtorDatasource } from './ator/ator.datasource';
 import { AtorService } from './ator/ator.service';
 import { getAtorImplementation } from './ator/ator.implementation';
-
-
+import { getFilmeImplementation } from './filme/filme.implementation';
+import { FilmeService } from './filme/filme.service';
+import { FilmeDatasource } from './filme/filme.datasource';
 
 const PROTO_PATH = path.resolve(__dirname, '../proto/filmes.proto');
 
@@ -31,13 +32,16 @@ export function startGrpcServer() {
     const atorDatasource = new AtorDatasource();
     const atorService = new AtorService(atorDatasource);
     const atorImplementation = getAtorImplementation(atorService);
+
+    const filmeDatasource = new FilmeDatasource(atorDatasource, generoDatasource);
+    const filmeService = new FilmeService(filmeDatasource, atorService, generoService);
+    const filmeImplementation = getFilmeImplementation(filmeService);
     
     const server = new grpc.Server();
 
-
     server.addService(filmesProto.GeneroService.service, generoImplementation);
     server.addService(filmesProto.AtorService.service, atorImplementation);
-
+    server.addService(filmesProto.FilmeService.service, filmeImplementation);
 
     server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
         if (err) {
