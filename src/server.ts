@@ -4,6 +4,9 @@ import path from 'path';
 import { GeneroDatasource } from './genero/genero.datasource';
 import { GeneroService } from './genero/genero.service';
 import { getGeneroImplementation } from './genero/genero.implementation';
+import { AtorDatasource } from './ator/ator.datasource';
+import { AtorService } from './ator/ator.service';
+import { getAtorImplementation } from './ator/ator.implementation';
 
 
 
@@ -19,18 +22,22 @@ export function startGrpcServer() {
         oneofs: true,
     });
 
-
     const filmesProto = grpc.loadPackageDefinition(packageDefinition).filmes as any;
-
 
     const generoDatasource = new GeneroDatasource();
     const generoService = new GeneroService(generoDatasource);
     const generoImplementation = getGeneroImplementation(generoService);
+
+    const atorDatasource = new AtorDatasource();
+    const atorService = new AtorService(atorDatasource);
+    const atorImplementation = getAtorImplementation(atorService);
     
     const server = new grpc.Server();
 
 
     server.addService(filmesProto.GeneroService.service, generoImplementation);
+    server.addService(filmesProto.AtorService.service, atorImplementation);
+
 
     server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
         if (err) {

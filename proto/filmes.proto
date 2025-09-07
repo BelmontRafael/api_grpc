@@ -43,3 +43,44 @@ service GeneroService {
     rpc AtualizarGenero(UpdateGeneroRequest) returns (GeneroResponse);
     rpc DeletarGenero(DeleteRequest) returns (Empty);
 }
+
+// --- Serviço de Ator ---
+
+// Mensagens para Ator
+message Ator {
+    int32 id = 1;
+    string nome = 2;
+    string data_nascimento = 3;
+}
+
+message AtorResponse {
+    Ator ator = 1;
+}
+
+message AtoresResponse {
+    repeated Ator atores = 1;
+}
+
+message GetAtorRequest {
+    int32 id = 1;
+}
+
+message CreateAtorRequest {
+    string nome = 1;
+    string data_nascimento = 2;
+}
+
+message UpdateAtorRequest {
+    int32 id = 1;
+    string nome = 2;
+    string data_nascimento = 3;
+}
+
+// Serviço
+service AtorService {
+    rpc ListarAtores(Empty) returns (AtoresResponse);
+    rpc ObterAtor(GetAtorRequest) returns (AtorResponse);
+    rpc CriarAtor(CreateAtorRequest) returns (AtorResponse);
+    rpc AtualizarAtor(UpdateAtorRequest) returns (AtorResponse);
+    rpc DeletarAtor(DeleteRequest) returns (Empty);
+}
